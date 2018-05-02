@@ -1,0 +1,71 @@
+* Design By Contract
+This project implements a minimal design by contract (dbc)
+system, inspired by that of ~clojure~.
+
+** Rationale
+Although this project serves mostly personal learning 
+purposes, the merits of DBC systems are worth expressing.
+
+Pioneered in languages like ~Eiffel~, design by contract
+enforces interfaces between functions through the enforcement
+of pre-conditions, post-conditions, and invariants. By making
+assumptions about a procedure's behavior explicit and testable,
+use of these systems promises more robust systems, especially
+in the domain of dynamically typed languages.
+
+I'll refrain from further elaborating on these systems in order
+to avoid doing injustice to their formal theory, but I encourage
+readers to visit some of the listed reference papers.
+
+** Use
+A single ~defcnt~ macro allows users to define ordinary procedures
+with a set of pre- and post-conditions:
+
+#+begin_src lisp
+(defcnt double (xs)
+        (:pre (listp xs)
+         :post t)
+      (mapcar #'(lambda (x) (* x 2)) xs))
+#+end_src
+
+In this example, a function, ~double~, is defined with a ~:pre~
+condition, ~(listp xs)~. That is, the function is defined with
+a built in assertion that the argument ~xs~ will satisfy the
+predicate of ~listp~. ~double~ behaves as would be expected were
+it defined with ~defun~. However, in the case that a supplied
+argument violates this predicate, an exception is thrown.
+
+This system works simply by macro-expanding into the supplied
+function definition, along with ~:pre~ and ~:post~ arguments
+interpolated into ordinary assertions:
+
+#+begin_src lisp
+(DEFUN DOUBLE (XS)
+     (ASSERT (LISTP XS))
+     (LET ((#:RES645 (PROGN (MAPCAR #'(LAMBDA (X) (* X 2)) XS))))
+       #:RES645))
+#+end_src
+
+** Limitations and Possible Improvements
+This project is incomplete. Several major limitations must be
+disclosed:
+- ~:pre~ and ~:post~ conditions each accept a single predicate
+only.
+- A function's arguments are out of scope for ~:post~.
+- This system has not yet been generalized to multiple return
+values.
+
+In addition to implementing these features, more tests should
+be added, an installation and packaging mechanism should be
+improved and documented, and macros should be supported.
+
+Another useful feature might be the ability to globally toggle
+these contracts, in order to confine their use to development.
+
+** References
+[[http://wiki.call-cc.org/eggref/4/dbc][- For inspiration, see Chicken Scheme DBC]].
+
+** Thank you
+For what its worth, I owe a thank you to the talented @dalekbaldwin 
+for spending time helping teach me the macro programming fundementals 
+necessary to write this code.
