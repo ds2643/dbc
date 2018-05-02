@@ -49,11 +49,9 @@ interpolated into ordinary assertions:
 ** Limitations and Possible Improvements
 This project is incomplete. Several major limitations must be
 disclosed:
-- ~:pre~ and ~:post~ conditions each accept a single predicate
-only.
+- ~:pre~ and ~:post~ conditions each accept a single predicate only.
 - A function's arguments are out of scope for ~:post~.
-- This system has not yet been generalized to multiple return
-values.
+- This system has not yet been generalized to multiple return values.
 
 In addition to implementing these features, more tests should
 be added, an installation and packaging mechanism should be
@@ -63,7 +61,7 @@ Another useful feature might be the ability to globally toggle
 these contracts, in order to confine their use to development.
 
 ** References
-[[http://wiki.call-cc.org/eggref/4/dbc][- For inspiration, see Chicken Scheme DBC]].
+For inspiration, see [[http://wiki.call-cc.org/eggref/4/dbc][Chicken Scheme DBC]].
 
 ** Thank you
 For what its worth, I owe a thank you to the talented @dalekbaldwin 
